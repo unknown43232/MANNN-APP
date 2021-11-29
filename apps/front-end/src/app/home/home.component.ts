@@ -9,18 +9,19 @@ import { Emitters } from '../emitters/emitters';
 })
 export class HomeComponent implements OnInit {
   message = '';
+
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.http
-      .get('http://localhost:3333/api/user/user', { withCredentials: true })
+      .get('http://localhost:3333/api/user/user', { withCredentials: true,responseType: 'text' },)
       .subscribe(
-        (name: any) => {
-          this.message = 'Hello, ' + name;
+        (res: any) => {
+          this.message = `Hello, ${res}`;
           Emitters.authEmitter.emit(true);
         },
         (err) => {
-          this.message = 'you are not';
+          this.message = 'You are not logged in';
           Emitters.authEmitter.emit(false);
         }
       );

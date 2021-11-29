@@ -8,23 +8,21 @@ import { Emitters } from '../emitters/emitters';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-  authenticated:boolean=false;
-  constructor(
-    private http:HttpClient
-  ) { }
+  authenticated = false;
+
+  constructor(private http: HttpClient) {
+  }
 
   ngOnInit(): void {
     Emitters.authEmitter.subscribe(
-      (auth:boolean)=>{    
+      (auth: boolean) => {
         this.authenticated = auth;
       }
     );
   }
-  logout():void{
-    this.http.post("http://localhost:3333/api/user/logout",{},{withCredentials:true}).subscribe(()=>{
-      console.log("logging out");
-      
-    });
-  }
 
+  logout(): void {
+    this.http.post('http://localhost:3333/api/user/logout', {}, {withCredentials: true})
+      .subscribe(() => this.authenticated = false);
+  }
 }
